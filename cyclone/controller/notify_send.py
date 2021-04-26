@@ -34,5 +34,7 @@ def send_message(json_body: JsonBody):
                                                             json_body.link_text, json_body.at, json_body.receiver)
             return res
         raise SendFeiShuError(message="不支持的message type！")
+    except SendFeiShuError as e:
+        raise e
     except Exception:
         raise SendFeiShuError
