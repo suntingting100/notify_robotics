@@ -34,7 +34,7 @@ def send_feishu_interactive_card(title, content, link, button=None, token='fa64d
     t_msg = f.read()
     f.close()
     if button is None and link is not None:
-        button = link.split("/")[4]
+        button = link
     msg = t_msg.replace("@@TITLE@@", title) \
         .replace("@@CONTENT@@", content) \
         .replace("@@LINK@@", link) \
@@ -62,7 +62,7 @@ def send_feishu_rich_text(title, content, link, link_text=None, at=None, token='
     t_msg = f.read()
     f.close()
     if link_text is None and link is not None:
-        link_text = link.split("/")[4]
+        link_text = link
     msg = t_msg.replace("@@TITLE@@", title) \
         .replace("@@CONTENT@@", content) \
         .replace("@@LINK@@", link) \
@@ -85,6 +85,6 @@ def send_feishu_rich_text(title, content, link, link_text=None, at=None, token='
 
 
 if __name__ == '__main__':
-    send_feishu_rich_text(title="title", content="content\\n fasfds\\n dfhgf\\n jghjwtrw3 utyuu", link="https://open.feishu.cn/open-apis/bot/v2/hook/",
-                          token="fa64da3f-14cf-46d2-9094-29228d2a1541")
+    url = "http://www.baidu.com/"
+    print(url.split("/")[4])
     pass
