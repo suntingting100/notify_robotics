@@ -20,5 +20,5 @@ class BaseError(Exception):
         self.http_status_code = self._error.http_status_code
 
 
-class UserTokenError(BaseError):
-    _error = Error(code=4001, message='token无效', http_status_code=401)
+class SendFeiShuError(BaseError):
+    _error = Error(code=40001, message='发送飞书失败,请检查！', http_status_code=400)

@@ -1,0 +1,25 @@
+{
+  "msg_type": "post",
+  "content": {
+    "post": {
+      "zh_cn": {
+        "title": "@@TITLE@@",
+        "content": [
+          [
+            {
+              "tag": "text",
+              "text": "@@CONTENT@@"
+            }
+          ],
+          [
+            {
+              "tag": "a",
+              "text": "@@LINK@@",
+              "href": "@@BUTTON@@"
+            }
+          ]
+        ]
+      }
+    }
+  }
+}

@@ -18,9 +18,11 @@ from cyclone.exceptions.BaseException import BaseError
 
 @app.exception_handler(BaseError)
 def base_exception_handler(request: Request, exc: BaseError):
+    status_code = exc.http_status_code
+    content = {"code": exc.code, "message": exc.err_desc}
     # return Response(status_code=exc.http_status_code, content=exc.err_desc)
-    return JSONResponse(status_code=exc.http_status_code,
-                        content=jsonable_encoder({"code": exc.code, "message": exc.err_desc}), )
+    return JSONResponse(status_code=status_code,
+                        content=content)
 
 
 @app.exception_handler(RequestValidationError)

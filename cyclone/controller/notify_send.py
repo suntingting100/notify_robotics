@@ -9,18 +9,30 @@ from pydantic.main import BaseModel
 
 from cyclone import app
 from cyclone.exceptions.BaseException import *
+from cyclone.module import send_feishu_message
 
 
 class JsonBody(BaseModel):
-    receiver: str = None
-    sender: str = None
-    token: str
+    message_type: str = 'card'
+    receiver: str
     title: str
     content: str
+    at: str = None
     link: str = None
+    link_text: str = None
 
 
 @app.post("/sendMessage")
 def send_message(json_body: JsonBody):
-    print("send")
-    raise UserTokenError
+    try:
+        if json_body.message_type == 'card':
+            res = send_feishu_message.send_feishu_interactive_card(json_body.title, json_body.content, json_body.link,
+                                                                   json_body.link_text, json_body.receiver)
+            return res
+        elif json_body.message_type == 'rich':
+            res = send_feishu_message.send_feishu_rich_text(json_body.title, json_body.content, json_body.link,
+                                                            json_body.link_text, json_body.at, json_body.receiver)
+            return res
+        raise SendFeiShuError(message="不支持的message type！")
+    except Exception:
+        raise SendFeiShuError

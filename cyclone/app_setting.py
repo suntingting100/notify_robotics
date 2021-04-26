@@ -9,7 +9,7 @@ import os
 
 from pydantic import BaseSettings
 
-MODULE_NAME = 'cyclone'
+MODULE_NAME = "cyclone"
 
 
 def get_root_path():
