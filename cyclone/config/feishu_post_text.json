@@ -14,8 +14,8 @@
           [
             {
               "tag": "a",
-              "text": "@@LINK@@",
-              "href": "@@BUTTON@@"
+              "text": "@@BUTTON@@",
+              "href": "@@LINK@@"
             }
           ]
         ]

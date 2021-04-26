@@ -37,7 +37,7 @@ def send_feishu_interactive_card(title, content, link, button=None, token='fa64d
         button = link.split("/")[4]
     msg = t_msg.replace("@@TITLE@@", title) \
         .replace("@@CONTENT@@", content) \
-        .replace("@@LINK@@", link + "allure") \
+        .replace("@@LINK@@", link) \
         .replace("@@BUTTON@@", button)
     try:
         res = requests.post(BASE_URL + token, headers=header, data=msg.encode('utf-8'))
@@ -65,7 +65,7 @@ def send_feishu_rich_text(title, content, link, link_text=None, at=None, token='
         link_text = link.split("/")[4]
     msg = t_msg.replace("@@TITLE@@", title) \
         .replace("@@CONTENT@@", content) \
-        .replace("@@LINK@@", link + "allure") \
+        .replace("@@LINK@@", link) \
         .replace("@@BUTTON@@", link_text)
     try:
         res = requests.post(BASE_URL + token, headers=header, data=msg.encode('utf-8'))
