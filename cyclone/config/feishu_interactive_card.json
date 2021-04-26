@@ -1,0 +1,44 @@
+{
+    "msg_type":"interactive",
+    "card":{
+        "config":{
+            "wide_screen_mode":true,
+            "enable_forward":true
+        },
+        "elements":[
+            {
+                "tag":"div",
+                "text":{
+                    "content":"@@CONTENT@@",
+                    "tag":"lark_md"
+                }
+            },
+            {
+                "tag":"hr"
+            },
+            {
+                "actions":[
+                    {
+                        "tag":"button",
+                        "text":{
+                            "content":"@@BUTTON@@",
+                            "tag":"lark_md"
+                        },
+                        "url":"@@LINK@@",
+                        "type":"default",
+                        "value":{
+
+                        }
+                    }
+                ],
+                "tag":"action"
+            }
+        ],
+        "header":{
+            "title":{
+                "content":"@@TITLE@@",
+                "tag":"plain_text"
+            }
+        }
+    }
+}
