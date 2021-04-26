@@ -14,7 +14,7 @@ MODULE_NAME = "cyclone"
 
 def get_root_path():
     cur_path = os.path.abspath(os.path.dirname(__file__))
-    root_path = cur_path[:cur_path.find(MODULE_NAME, 30)]
+    root_path = cur_path[:cur_path.find(MODULE_NAME, 20)]
     return root_path
 
 
