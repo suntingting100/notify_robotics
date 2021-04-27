@@ -31,3 +31,8 @@ from cyclone.utils.exception_handler import *
 
 # 注册接口地址
 from cyclone.controller.notify_send import app
+
+if __name__ == '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app_logger.handlers = gunicorn_logger.handlers
+    app_logger.setLevel(gunicorn_logger.level)
