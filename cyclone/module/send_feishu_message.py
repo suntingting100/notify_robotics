@@ -17,7 +17,7 @@ from cyclone.exceptions.BaseException import SendFeiShuError
 BASE_URL = "https://open.feishu.cn/open-apis/bot/v2/hook/"
 
 
-def send_feishu_interactive_card(title, content, link, button=None, token='fa64da3f-14cf-46d2-9094-29228d2a1541'):
+def send_feishu_interactive_card(title, content, link=None, button=None, token='fa64da3f-14cf-46d2-9094-29228d2a1541'):
     """
     发送飞书卡片通知，需要提供机器人token
     :param title: 卡片标题
@@ -33,7 +33,9 @@ def send_feishu_interactive_card(title, content, link, button=None, token='fa64d
              encoding='utf-8')
     t_msg = f.read()
     f.close()
-    if button is None and link is not None:
+    if link is None:
+        link = ""
+    if button is None:
         button = link
     msg = t_msg.replace("@@TITLE@@", title) \
         .replace("@@CONTENT@@", content) \
@@ -54,14 +56,16 @@ def send_feishu_interactive_card(title, content, link, button=None, token='fa64d
         raise SendFeiShuError()
 
 
-def send_feishu_rich_text(title, content, link, link_text=None, at=None, token='fa64da3f-14cf-46d2-9094-29228d2a1541'):
+def send_feishu_rich_text(title, content, link=None, link_text=None, at=None, token='fa64da3f-14cf-46d2-9094-29228d2a1541'):
     from cyclone.utils.veiws_utils import normal_json_response
     header = {"Content-Type": "application/json"}
     f = open(get_root_path() + MODULE_NAME + os.sep + "config" + os.sep + "feishu_post_text.json",
              encoding='utf-8')
     t_msg = f.read()
     f.close()
-    if link_text is None and link is not None:
+    if link is None:
+        link = ""
+    if link_text is None:
         link_text = link
     msg = t_msg.replace("@@TITLE@@", title) \
         .replace("@@CONTENT@@", content) \
