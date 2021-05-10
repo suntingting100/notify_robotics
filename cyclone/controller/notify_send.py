@@ -13,6 +13,12 @@ from cyclone.module import send_feishu_message
 
 
 class JsonBody(BaseModel):
+    """
+    message_type: 消息类型
+    receiver: 群机器人token
+    title: 消息标题
+    content: 消息内容
+    """
     message_type: str = 'card'
     receiver: str
     title: str
