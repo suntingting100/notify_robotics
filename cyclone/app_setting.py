@@ -9,12 +9,12 @@ import os
 
 from pydantic import BaseSettings
 
-MODULE_NAME = "cyclone"
+MODULE_NAME = 'cyclone'
 
 
 def get_root_path():
     cur_path = os.path.abspath(os.path.dirname(__file__))
-    root_path = cur_path[:cur_path.find(MODULE_NAME, 20)]
+    root_path = cur_path.removesuffix(MODULE_NAME)
     return root_path
 
 
