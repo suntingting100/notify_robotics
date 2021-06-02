@@ -25,7 +25,7 @@ if not os.path.exists(LOG_PATH):
 
 formatter = logging.Formatter(
     "[%(asctime)s.%(msecs)03d] %(levelname)s [%(thread)d] - %(message)s", "%Y-%m-%d %H:%M:%S")
-handler = RotatingFileHandler(get_root_path() + 'logs/server.log', backupCount=0)
+handler = RotatingFileHandler(get_root_path() + '/logs/server.log', backupCount=0)
 logging.getLogger().setLevel(logging.NOTSET)
 app_logger.addHandler(handler)
 handler.setFormatter(formatter)
