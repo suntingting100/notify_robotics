@@ -19,6 +19,10 @@ setting = AppBaseSetting()
 app = FastAPI()
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
+LOG_PATH = get_root_path() + "logs"
+if not os.path.exists(LOG_PATH):
+    os.makedirs(LOG_PATH)
+
 formatter = logging.Formatter(
     "[%(asctime)s.%(msecs)03d] %(levelname)s [%(thread)d] - %(message)s", "%Y-%m-%d %H:%M:%S")
 handler = RotatingFileHandler(get_root_path() + 'logs/server.log', backupCount=0)
