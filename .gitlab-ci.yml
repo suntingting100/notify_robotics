@@ -1,0 +1,34 @@
+stages:
+  - sonar
+  - build
+  - deploy
+
+variables:
+  PROJECT_NAME: notify_robot
+  IMAGE: reg.cyclone.com:8080/library/${PROJECT_NAME}
+
+before_script:
+  - IMAGE_TAG=${IMAGE}:${IMAGE ID}
+
+build:
+  stage: build
+  tags:
+    - test
+  only:
+    - master
+  image: python:3.9
+  script:
+    - echo "开始打包镜像"
+    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
+    - sudo docker build -t ${IMAGE_TAG} -f Dockerfile .
+
+deploy:
+  stage: deploy
+  tags:
+    - test
+  only:
+    - master
+  script:
+    - echo "开始发布镜像${IMAGE_TAG}"
+    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
+    - sudo docker push ${IMAGE_TAG}
