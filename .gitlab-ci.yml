@@ -8,7 +8,7 @@ variables:
   IMAGE: reg.cyclone.com:8080/library/${PROJECT_NAME}
 
 before_script:
-  - IMAGE_TAG=${IMAGE}:${IMAGE ID}
+  - IMAGE_TAG=${IMAGE}:${CI_COMMIT_SHA:0:8}
 
 build:
   stage: build
