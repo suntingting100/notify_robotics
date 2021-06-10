@@ -35,7 +35,11 @@ deploy:
 #    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
 #    - sudo docker push ${IMAGE_TAG}
 
-#back_end:
-#  stage: deploy
-#  needs:
-#    pipeline: cyclonet/test_result_monitor
+
+trigger:
+  stage: build
+  script:
+    - echo "trigger build"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
+    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
