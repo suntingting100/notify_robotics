@@ -36,6 +36,6 @@ deploy:
 back_end:
   stage: deploy
   needs:
-    - pipeline: cyclonet/test_result_monitor
+    pipeline: cyclonet/test_result_monitor
   script:
     - echo "${IMAGE_TAG}"
