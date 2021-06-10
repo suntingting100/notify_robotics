@@ -32,3 +32,10 @@ deploy:
     - echo "开始发布镜像${IMAGE_TAG}"
     - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
     - sudo docker push ${IMAGE_TAG}
+
+back_end:
+  stage: deploy
+  needs:
+    - pipeline: cyclonet/test_result_monitor
+  script:
+    - echo "${IMAGE_TAG}"
