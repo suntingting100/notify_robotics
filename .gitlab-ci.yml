@@ -19,8 +19,8 @@ build:
   image: python:3.9
   script:
     - echo "开始打包镜像"
-    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
-    - sudo docker build -t ${IMAGE_TAG} -f Dockerfile .
+#    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
+#    - sudo docker build -t ${IMAGE_TAG} -f Dockerfile .
 
 deploy:
   stage: deploy
@@ -30,8 +30,8 @@ deploy:
     - master
   script:
     - echo "开始发布镜像${IMAGE_TAG}"
-    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
-    - sudo docker push ${IMAGE_TAG}
+#    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
+#    - sudo docker push ${IMAGE_TAG}
 
 back_end:
   stage: deploy
