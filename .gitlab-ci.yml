@@ -30,7 +30,8 @@ deploy:
     - master
   script:
     - echo "开始发布镜像${IMAGE_TAG}"
-    - echo "${CI_PIPELINE_TRIGGERED}"
+    - echo "CI_PIPELINE_TRIGGERED：${CI_PIPELINE_TRIGGERED}"
+    - echo "CI_PIPELINE_SOURCE： ${CI_PIPELINE_SOURCE}"
 #    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
 #    - sudo docker push ${IMAGE_TAG}
 
