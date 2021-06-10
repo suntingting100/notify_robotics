@@ -35,6 +35,18 @@ deploy:
 #    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
 #    - sudo docker push ${IMAGE_TAG}
 
+back_end:
+  stage: deploy
+  variables:
+    IMAGE_TAG: ${CI_COMMIT_SHA:0:8}
+  trigger:
+    project: cyclonet/test_result_monitor
+    branch: master
+    strategy: depend
+  needs: []
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+
 
 trigger:
   stage: build
