@@ -5,11 +5,14 @@
 @file:notify_send.py
 @time:2021/04/26
 """
+import logging
+
 from pydantic.main import BaseModel
 
 from cyclone import app
 from cyclone.exceptions.BaseException import *
 from cyclone.module import send_feishu_message
+from cyclone import app_logger
 
 
 class JsonBody(BaseModel):
@@ -39,6 +42,8 @@ def send_message(json_body: JsonBody):
             res = send_feishu_message.send_feishu_rich_text(json_body.title, json_body.content, json_body.link,
                                                             json_body.link_text, json_body.at, json_body.receiver)
             return res
+        else:
+            app_logger.error(json_body)
         raise SendFeiShuError(message="不支持的message type！")
     except SendFeiShuError as e:
         raise e
