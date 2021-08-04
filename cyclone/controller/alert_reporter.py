@@ -88,8 +88,8 @@ def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线'
             json_body.commonAnnotations.summary)
     else:
         for a in json_body.alerts:
-            content += "%s 于%s发出告警：%s" % (
-                a.labels.suite, a.labels.xtime, a.annotations.summary) + "\\n\\n"
+            content += "%s 于%s发出告警：%s [测试报告](%s)" % (
+            a.labels.suite, a.labels.xtime, a.annotations.summary, a.labels.url) + "\\n\\n"
     if json_body.commonLabels.url is not None:
         link = json_body.commonLabels.url
         button = json_body.commonLabels.alertname
