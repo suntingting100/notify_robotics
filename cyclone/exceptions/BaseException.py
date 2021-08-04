@@ -22,3 +22,7 @@ class BaseError(Exception):
 
 class SendFeiShuError(BaseError):
     _error = Error(code=40001, message='发送飞书失败,请检查！', http_status_code=400)
+
+
+class LineNotFoundError(BaseError):
+    _error = Error(code=40004, message='业务线不存在,请检查！', http_status_code=404)

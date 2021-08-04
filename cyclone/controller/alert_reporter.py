@@ -6,28 +6,55 @@
 @time:2021/08/04
 """
 import json
+import os
 
-from pydantic.class_validators import Optional
+from fastapi import Path
+
+from pydantic.class_validators import Optional, List
 from pydantic.main import BaseModel
 
-from cyclone import app
+from cyclone import app, get_root_path
+from cyclone.app_setting import MODULE_NAME
 from cyclone.exceptions.BaseException import *
 from cyclone.module import send_feishu_message
 from cyclone import app_logger
 
 
+class AlertLabels(BaseModel):
+    alertname: str
+    app: Optional[str]
+    env: Optional[str]
+    instance: Optional[str]
+    job: Optional[str]
+    line: Optional[str]
+    result: Optional[str]
+    severity: Optional[str]
+    suite: Optional[str]
+    url: Optional[str]
+    xtime: Optional[str]
+
+
+class AlertAnnotation(BaseModel):
+    summary: Optional[str]
+
+
+class Alerts(BaseModel):
+    labels: Optional[AlertLabels]
+    annotations: Optional[AlertAnnotation]
+
+
 class Labels(BaseModel):
     alertname: str
-    app: str
-    env: str
-    instance: str
-    job: str
-    line: str
-    result: str
-    severity: str
-    suite: str
-    url: str
-    xtime: str
+    app: Optional[str]
+    env: Optional[str]
+    instance: Optional[str]
+    job: Optional[str]
+    line: Optional[str]
+    result: Optional[str]
+    severity: Optional[str]
+    suite: Optional[str]
+    url: Optional[str]
+    xtime: Optional[str]
 
 
 class Annotations(BaseModel):
@@ -36,20 +63,36 @@ class Annotations(BaseModel):
 
 class JsonBody(BaseModel):
     status: str
+    alerts: Optional[List[Alerts]]
     commonLabels: Optional[Labels]
     commonAnnotations: Optional[Annotations]
 
 
-@app.post("/alertReporter")
-def alert_reporter(token: str, json_body: JsonBody):
-    app_logger.info(token)
+@app.post("/alertReporter/{line}")
+def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线')):
+    token_file = get_root_path() + MODULE_NAME + os.sep + "config" + os.sep + "token.json"
+    with open(token_file) as f:
+        json_object = json.load(f)
+    try:
+        token = json_object[line]
+    except KeyError as e:
+        raise LineNotFoundError
     app_logger.info(json_body)
     title = "线上监控-%s" % json_body.commonLabels.app
-    content = "%s于%s发出告警：%s" % (
-        json_body.commonLabels.suite, json_body.commonLabels.xtime,
-        json_body.commonAnnotations.summary)
-    link = json_body.commonLabels.url
-    button = json_body.commonLabels.alertname
+    content = ''
+    link = "http://10.20.17.124:9093/#/alerts"
+    button = 'alert manager'
+    if json_body.commonLabels.suite is not None and json_body.commonLabels.xtime is not None:
+        content = "%s于%s 发出告警：%s" % (
+            json_body.commonLabels.suite, json_body.commonLabels.xtime,
+            json_body.commonAnnotations.summary)
+    else:
+        for a in json_body.alerts:
+            content += "%s 于%s发出告警：%s" % (
+                a.labels.suite, a.labels.xtime, a.annotations.summary) + "\\n\\n"
+    if json_body.commonLabels.url is not None:
+        link = json_body.commonLabels.url
+        button = json_body.commonLabels.alertname
     res = send_feishu_message.send_feishu_interactive_card(title, content, link=link, button=button, token=token)
     app_logger.info(res)
     return res
