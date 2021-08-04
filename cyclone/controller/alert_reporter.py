@@ -51,6 +51,7 @@ def alert_reporter(token: str, json_body: JsonBody):
     link = json_body.commonLabels.url
     button = json_body.commonLabels.alertname
     res = send_feishu_message.send_feishu_interactive_card(title, content, link=link, button=button, token=token)
+    app_logger.info(res)
     return res
 
 
