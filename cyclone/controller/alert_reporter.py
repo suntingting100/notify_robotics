@@ -9,6 +9,7 @@ import json
 import os
 
 from fastapi import Path
+from fastapi.encoders import jsonable_encoder
 
 from pydantic.class_validators import Optional, List
 from pydantic.main import BaseModel
@@ -70,6 +71,9 @@ class JsonBody(BaseModel):
 
 @app.post("/alertReporter/{line}")
 def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线')):
+    json_compatible_item_data = jsonable_encoder(json_body)
+    app_logger.info(json_compatible_item_data)
+
     token_file = get_root_path() + MODULE_NAME + os.sep + "config" + os.sep + "token.json"
     with open(token_file) as f:
         json_object = json.load(f)
