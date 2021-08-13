@@ -28,11 +28,9 @@ class AlertLabels(BaseModel):
     instance: Optional[str]
     job: Optional[str]
     line: Optional[str]
-    result: Optional[str]
     severity: Optional[str]
     suite: Optional[str]
     url: Optional[str]
-    xtime: Optional[str]
 
 
 class AlertAnnotation(BaseModel):
@@ -51,11 +49,9 @@ class Labels(BaseModel):
     instance: Optional[str]
     job: Optional[str]
     line: Optional[str]
-    result: Optional[str]
     severity: Optional[str]
     suite: Optional[str]
     url: Optional[str]
-    xtime: Optional[str]
 
 
 class Annotations(BaseModel):
@@ -86,14 +82,13 @@ def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线'
     content = ''
     link = "http://10.20.17.124:9093/#/alerts"
     button = 'alert manager'
-    if json_body.commonLabels.suite is not None and json_body.commonLabels.xtime is not None:
-        content = "%s于%s 发出告警：%s" % (
-            json_body.commonLabels.suite, json_body.commonLabels.xtime,
-            json_body.commonAnnotations.summary)
+    if json_body.commonLabels.suite is not None and json_body.status == 'firing':
+        content = "%s %s告警：%s" % (json_body.commonLabels.suite, '发出', json_body.commonAnnotations.summary)
+    elif json_body.commonLabels.suite is not None and json_body.status == 'resolved':
+        content = "%s 解除告警" % json_body.commonLabels.suite
     else:
         for a in json_body.alerts:
-            content += "%s 于%s发出告警：%s [测试报告](%s)" % (
-            a.labels.suite, a.labels.xtime, a.annotations.summary, a.labels.url) + "\\n\\n"
+            content += "%s 发出告警：%s [测试报告](%s)" % (a.labels.suite, a.annotations.summary, a.labels.url) + "\\n\\n"
     if json_body.commonLabels.url is not None:
         link = json_body.commonLabels.url
         button = json_body.commonLabels.alertname
