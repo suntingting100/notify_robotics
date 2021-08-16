@@ -19,19 +19,27 @@ class EsController:
 
     async def insert_index(self, index, json_body):
         try:
-            res = await self.es.index(index=index, body=json_body, timeout=5, request_timeout=5)
+            res = await self.es.index(index=index, body=json_body, request_timeout=5)
             app_logger.info(res)
             await self.es.close()
         except Exception as e:
             app_logger.error(e)
             return EsError
 
+    async def delete_index_by_query(self, index, query):
+        try:
+            res = await self.es.delete_by_query(index=index, body=query)
+            print(res)
+        except Exception as e:
+            app_logger.error(e)
+            return EsError
+
 
 if __name__ == '__main__':
-    index = 'testyw'
-    json_body = {"name": "test"}
+    index = 'monitor'
+    json_body = {"query": {"bool": {"must": [{"match_all": {}}]}}}
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    futures = asyncio.ensure_future(EsController().insert_index(index, json_body))
+    futures = asyncio.ensure_future(EsController().delete_index_by_query(index, json_body))
     loop.run_until_complete(futures)
     body = futures.result()
