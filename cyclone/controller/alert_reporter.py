@@ -5,6 +5,7 @@
 @file:alert_reporter.py
 @time:2021/08/04
 """
+import asyncio
 import json
 import os
 
@@ -14,11 +15,12 @@ from fastapi.encoders import jsonable_encoder
 from pydantic.class_validators import Optional, List
 from pydantic.main import BaseModel
 
-from cyclone import app, get_root_path
+from cyclone import app, get_root_path, setting
 from cyclone.app_setting import MODULE_NAME
 from cyclone.exceptions.BaseException import *
 from cyclone.module import send_feishu_message
 from cyclone import app_logger
+from cyclone.utils.es_controller import EsController
 
 
 class AlertLabels(BaseModel):
@@ -67,6 +69,8 @@ class JsonBody(BaseModel):
 
 @app.post("/alertReporter/{line}")
 def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线')):
+    import time
+    s = time.time()
     json_compatible_item_data = jsonable_encoder(json_body)
     app_logger.info(json_compatible_item_data)
 
@@ -94,6 +98,11 @@ def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线'
         button = json_body.commonLabels.alertname
     res = send_feishu_message.send_feishu_interactive_card(title, content, link=link, button=button, token=token)
     app_logger.info(res)
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    futures = asyncio.ensure_future(EsController().insert_index(setting.es_index, json_compatible_item_data))
+    loop.run_until_complete(futures)
+    e = time.time()
     return res
 
 

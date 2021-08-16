@@ -26,3 +26,7 @@ class SendFeiShuError(BaseError):
 
 class LineNotFoundError(BaseError):
     _error = Error(code=40004, message='业务线不存在,请检查！', http_status_code=404)
+
+
+class EsError(BaseError):
+    _error = Error(code=50005, message='es存在错误，请检查！', http_status_code=500)

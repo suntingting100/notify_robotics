@@ -23,6 +23,11 @@ class AppBaseSetting(BaseSettings):
     port: int = 8080
     log_level: str = 'info'
     jenkins_base_url = ""
+    es_host: str = '10.20.17.176'
+    es_port: int = 30092
+    es_user: str = 'elastic'
+    es_passwd: str = 'Sxs2tHD312j431WPGi850CXk'
+    es_index: str = 'monitor'
 
     class Config:
         env_file = get_root_path() + "/.env"
