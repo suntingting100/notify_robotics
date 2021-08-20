@@ -30,6 +30,7 @@ class EsController:
         try:
             res = await self.es.delete_by_query(index=index, body=query)
             print(res)
+            await self.es.close()
         except Exception as e:
             app_logger.error(e)
             return EsError
@@ -37,9 +38,13 @@ class EsController:
 
 if __name__ == '__main__':
     index = 'monitor'
-    json_body = {"query": {"bool": {"must": [{"match_all": {}}]}}}
+    # json_body = {"query": {"bool": {"must": [{"match_all": {}}]}}}
+    json_body = {"query": {
+        "bool": {"must": [{"query_string": {"default_field": "alert_date", "query": "*"}}], "must_not": [],
+                 "should": []}}}
+    esc = EsController()
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    futures = asyncio.ensure_future(EsController().delete_index_by_query(index, json_body))
+    futures = asyncio.ensure_future(esc.delete_index_by_query(index, json_body))
     loop.run_until_complete(futures)
     body = futures.result()

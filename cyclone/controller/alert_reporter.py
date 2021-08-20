@@ -8,6 +8,7 @@
 import asyncio
 import json
 import os
+import time
 
 from fastapi import Path
 from fastapi.encoders import jsonable_encoder
@@ -69,8 +70,8 @@ class JsonBody(BaseModel):
 
 @app.post("/alertReporter/{line}")
 def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线')):
-    import time
-    s = time.time()
+    import datetime
+    create_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     json_compatible_item_data = jsonable_encoder(json_body)
     app_logger.info(json_compatible_item_data)
 
@@ -100,11 +101,17 @@ def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线'
     app_logger.info(res)
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    futures = asyncio.ensure_future(EsController().insert_index(setting.es_index, json_compatible_item_data))
+    futures = asyncio.ensure_future(
+        EsController().insert_index(setting.es_index, {'alert_date': create_time, 'alert': json_compatible_item_data}))
     loop.run_until_complete(futures)
-    e = time.time()
+    # e = time.time()
     return res
 
 
 if __name__ == '__main__':
+    import datetime
+
+    n = datetime.datetime.now()
+    t = n.strftime("%Y-%m-%d %H:%M:%S")
+    print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     pass
