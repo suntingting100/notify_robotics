@@ -22,6 +22,7 @@ from cyclone.exceptions.BaseException import *
 from cyclone.module import send_feishu_message
 from cyclone import app_logger
 from cyclone.utils.es_controller import EsController
+from cyclone import app_jira
 
 
 class AlertLabels(BaseModel):
@@ -89,6 +90,8 @@ def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线'
     button = 'alert manager'
     if json_body.commonLabels.suite is not None and json_body.status == 'firing':
         content = "%s %s告警：%s" % (json_body.commonLabels.suite, '发出', json_body.commonAnnotations.summary)
+        user = app_jira.search_user_by_business_line(json_body.commonLabels.line)
+        app_jira.create_issue_by_business_line(json_body.commonLabels.line, user, json_body.commonAnnotations.summary, content)
     elif json_body.commonLabels.suite is not None and json_body.status == 'resolved':
         content = "%s 解除告警" % json_body.commonLabels.suite
     else:

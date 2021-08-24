@@ -28,6 +28,9 @@ class AppBaseSetting(BaseSettings):
     es_user: str = 'elastic'
     es_passwd: str = 'Sxs2tHD312j431WPGi850CXk'
     es_index: str = 'monitor'
+    jira_site: str = 'https://cyclone-robotics.atlassian.net/'
+    jira_user: str = 'wei.yang@cyclone-robotics.com'
+    jira_apikey: str = 'ya1UH4S3DUbX6JDrDNreF043'
 
     class Config:
         env_file = get_root_path() + "/.env"

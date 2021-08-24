@@ -30,6 +30,9 @@ logging.getLogger().setLevel(logging.NOTSET)
 app_logger.addHandler(handler)
 handler.setFormatter(formatter)
 
+from cyclone.module.jira_controller import JiraController
+app_jira = JiraController()
+
 # 注册异常拦截
 from cyclone.utils.exception_handler import *
 
