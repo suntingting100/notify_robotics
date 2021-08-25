@@ -91,7 +91,7 @@ def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线'
     if json_body.commonLabels.suite is not None and json_body.status == 'firing':
         content = "%s %s告警：%s" % (json_body.commonLabels.suite, '发出', json_body.commonAnnotations.summary)
         user = app_jira.search_user_by_business_line(json_body.commonLabels.line)
-        app_jira.create_issue_by_business_line(json_body.commonLabels.line, user, json_body.commonAnnotations.summary, content)
+        app_jira.create_issue_by_business_line(json_body.commonLabels.line,json_body.commonLabels.env, user, json_body.commonAnnotations.summary)
     elif json_body.commonLabels.suite is not None and json_body.status == 'resolved':
         content = "%s 解除告警" % json_body.commonLabels.suite
     else:
