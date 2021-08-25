@@ -105,7 +105,7 @@ def alert_reporter(json_body: JsonBody, line: str = Path(None, title='业务线'
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     futures = asyncio.ensure_future(
-        EsController().insert_index(setting.es_index, {'alert_date': create_time, 'alert': json_compatible_item_data}))
+        EsController().insert_index(setting.es_index, {'timestamp': datetime.datetime.now(), 'alert': json_compatible_item_data}))
     loop.run_until_complete(futures)
     # e = time.time()
     return res
@@ -116,5 +116,5 @@ if __name__ == '__main__':
 
     n = datetime.datetime.now()
     t = n.strftime("%Y-%m-%d %H:%M:%S")
-    print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    print(datetime.datetime.now())
     pass
