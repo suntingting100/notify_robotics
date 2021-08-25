@@ -44,7 +44,7 @@ if __name__ == '__main__':
     # json_body = {"query": {
     #     "bool": {"must": [{"query_string": {"default_field": "alert_date", "query": "*"}}], "must_not": [],
     #              "should": []}}}
-    jb = {'timestamp': datetime.datetime.now(), 'name': 'testyw123', 'line': 'ai', 'alert': 'xxx'}
+    jb = {'timestamp': datetime.datetime.now().isoformat() + "+0800", 'name': 'testyw123', 'line': 'ai', 'alert': 'xxx'}
     esc = EsController()
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
