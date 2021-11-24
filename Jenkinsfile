@@ -6,7 +6,6 @@ pipeline {
     stages{
         stage("global") {
             steps {
-//                 scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
                 echo 'hello world!'
             }
         }
