@@ -9,7 +9,6 @@ pipeline {
                 echo 'hello world!'
             }
         }
-
         stage('test branch') {
             when {
                 branch 'test'
