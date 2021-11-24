@@ -14,7 +14,7 @@ pipeline {
                 branch 'test'
             }
             steps {
-                scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
+//                 scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
                 echo 'I am in branch test'
                 sh 'exit 0'
             }
