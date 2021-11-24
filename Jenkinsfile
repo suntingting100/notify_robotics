@@ -2,11 +2,10 @@ pipeline {
     agent {
         label 'slave01'
     }
-
     stages{
         stage("global") {
-            scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
             steps {
+                scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
                 echo 'hello world!'
             }
         }
@@ -29,4 +28,3 @@ pipeline {
         }
     }
 }
-
