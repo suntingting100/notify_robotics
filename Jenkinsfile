@@ -9,13 +9,14 @@ pipeline {
                 echo 'hello world!'
             }
         }
+
         stage('test branch') {
             when {
                 branch 'test'
             }
             steps {
                 echo 'I am in branch test'
-                sh 'exit -1'
+                sh 'exit 0'
             }
         }
         stage('master') {
