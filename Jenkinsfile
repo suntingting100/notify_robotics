@@ -2,6 +2,7 @@ pipeline {
     agent {
         label 'slave01'
     }
+
     stages{
         stage("global") {
             steps {
