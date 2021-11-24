@@ -1,6 +1,6 @@
-#stages:
+stages:
 #  - sonar
-#  - build
+  - build
 #  - deploy
 #
 #variables:
@@ -10,15 +10,15 @@
 #before_script:
 #  - IMAGE_TAG=${IMAGE}:${CI_COMMIT_SHA:0:8}
 
-#build:
-#  stage: build
+build:
+  stage: build
 #  tags:
 #    - test
 #  only:
 #    - master
 #  image: python:3.9
-#  script:
-#    - echo "开始打包镜像"
+  script:
+    - echo "开始打包镜像"
 #    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
 #    - sudo docker build -t ${IMAGE_TAG} -f Dockerfile .
 
