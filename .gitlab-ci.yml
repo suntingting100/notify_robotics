@@ -10,48 +10,48 @@ variables:
 before_script:
   - IMAGE_TAG=${IMAGE}:${CI_COMMIT_SHA:0:8}
 
-build:
-  stage: build
-  tags:
-    - test
-  only:
-    - master
-  image: python:3.9
-  script:
-    - echo "开始打包镜像"
+#build:
+#  stage: build
+#  tags:
+#    - test
+#  only:
+#    - master
+#  image: python:3.9
+#  script:
+#    - echo "开始打包镜像"
 #    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
 #    - sudo docker build -t ${IMAGE_TAG} -f Dockerfile .
 
-deploy:
-  stage: deploy
-  tags:
-    - test
-  only:
-    - master
-  script:
-    - echo "开始发布镜像${IMAGE_TAG}"
-    - echo "CI_PIPELINE_TRIGGERED：${CI_PIPELINE_TRIGGERED}"
-    - echo "CI_PIPELINE_SOURCE： ${CI_PIPELINE_SOURCE}"
+#deploy:
+#  stage: deploy
+#  tags:
+#    - test
+#  only:
+#    - master
+#  script:
+#    - echo "开始发布镜像${IMAGE_TAG}"
+#    - echo "CI_PIPELINE_TRIGGERED：${CI_PIPELINE_TRIGGERED}"
+#    - echo "CI_PIPELINE_SOURCE： ${CI_PIPELINE_SOURCE}"
 #    - sudo docker login -u "admin" -p "Harbor12345" reg.cyclone.com:8080/library
 #    - sudo docker push ${IMAGE_TAG}
 
-allure_exporter:
-  stage: build
-  variables:
-    IMAGE_TAG: ${CI_COMMIT_SHA:0:8}
-  trigger:
-    project: cyclonet/test_result_monitor
-    branch: master
-    strategy: depend
-  needs: []
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-
-
-trigger:
-  stage: build
-  script:
-    - echo "trigger build"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
-    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
+#allure_exporter:
+#  stage: build
+#  variables:
+#    IMAGE_TAG: ${CI_COMMIT_SHA:0:8}
+#  trigger:
+#    project: cyclonet/test_result_monitor
+#    branch: master
+#    strategy: depend
+#  needs: []
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "push"'
+#
+#
+#trigger:
+#  stage: build
+#  script:
+#    - echo "trigger build"
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
+#    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
