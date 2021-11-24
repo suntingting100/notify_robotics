@@ -2,9 +2,10 @@ pipeline {
     agent {
         label 'slave01'
     }
-    scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
+
     stages{
         stage("global") {
+            scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
             steps {
                 echo 'hello world!'
             }
