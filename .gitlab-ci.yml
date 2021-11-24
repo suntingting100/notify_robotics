@@ -1,14 +1,14 @@
-stages:
-  - sonar
-  - build
-  - deploy
-
-variables:
-  PROJECT_NAME: notify_robot
-  IMAGE: reg.cyclone.com:8080/library/${PROJECT_NAME}
-
-before_script:
-  - IMAGE_TAG=${IMAGE}:${CI_COMMIT_SHA:0:8}
+#stages:
+#  - sonar
+#  - build
+#  - deploy
+#
+#variables:
+#  PROJECT_NAME: notify_robot
+#  IMAGE: reg.cyclone.com:8080/library/${PROJECT_NAME}
+#
+#before_script:
+#  - IMAGE_TAG=${IMAGE}:${CI_COMMIT_SHA:0:8}
 
 #build:
 #  stage: build
