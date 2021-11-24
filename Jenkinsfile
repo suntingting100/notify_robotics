@@ -14,6 +14,7 @@ pipeline {
             }
             steps {
                 echo 'I am in branch test'
+                sh 'exit -1'
             }
         }
         stage('master') {
