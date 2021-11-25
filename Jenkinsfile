@@ -27,5 +27,6 @@ pipeline {
                 echo 'I am in master'
             }
         }
+
     }
 }
