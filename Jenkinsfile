@@ -19,6 +19,7 @@ pipeline {
                 sh 'exit 0'
             }
         }
+
         stage('master') {
             when {
                 branch 'master'
