@@ -59,7 +59,7 @@ pipeline {
                         "ci": false,
                         "cd": false,
                         "test": false,
-                        "build_result": "${BUILD_STATUS}",
+                        "build_result": "'${BUILD_STATUS}'",
                         "duration_time": "'${DURATION_TIME}'",
                         "artifact": "'${ARTIFACT}'",
                         "test_report": ""
