@@ -47,7 +47,7 @@ pipeline {
                   },
                   "build_info": {
                     "build_job": "'${JOB_NAME}'",
-                    "build_number": '${BUILD_NUMBER}',
+                    "build_number": "'${BUILD_NUMBER}'",
                     "build_url": "'${RUN_DISPLAY_URL}'",
                     "ci": false,
                     "cd": false,
