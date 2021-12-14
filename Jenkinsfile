@@ -34,10 +34,6 @@ pipeline {
     post("build result notify"){
         always{
             script{
-                wrap([$class: 'BuildUser']) {
-                    env.USER_ID = env.CHANGE_AUTHOR
-                }
-                println env.USER_ID
                 def result = currentBuild.getResult()
                 env.STATUS=result
                 def duration_time = currentBuild.getDuration()/1000
@@ -47,7 +43,7 @@ pipeline {
                     --data \'
                     {
                       "line": "TEST",
-                      "user": "'"${USER_ID}"'",
+                      "user": "'"${CHANGE_AUTHOR}"'",
                       "department_name": "QA效能机器人-消息群",
                       "project_info": {
                         "project": "'${project_name}'",
