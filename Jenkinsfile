@@ -35,7 +35,7 @@ pipeline {
         always{
             script{
                 wrap([$class: 'BuildUser']) {
-                    env.USER_ID = env.BUILD_USER_ID
+                    env.USER_ID = env.CHANGE_AUTHOR
                 }
                 println env.USER_ID
                 def result = currentBuild.getResult()
