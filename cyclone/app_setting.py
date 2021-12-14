@@ -31,6 +31,8 @@ class AppBaseSetting(BaseSettings):
     jira_site: str = 'https://cyclone-robotics.atlassian.net/'
     jira_user: str = 'wei.yang@cyclone-robotics.com'
     jira_apikey: str = 'ya1UH4S3DUbX6JDrDNreF043'
+    app_id: str = 'cli_a11ede39d47a100c'
+    app_secret: str = 'Tq2Xl1lKsIIX10avtXPFOhovCyGcd34O'
 
     class Config:
         env_file = get_root_path() + "/.env"

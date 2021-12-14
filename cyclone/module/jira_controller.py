@@ -43,6 +43,7 @@ class JiraController:
             'customfield_10103': datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000+0800')
         }
         issue = self.jira.create_issue(issue_dict)
+        # self.jira.create_issue_link('Relates', 'TEST-19', issue.key)
         return issue
 
     def create_issue_by_business_line(self, line, env, user_id, summary, description=None):
@@ -68,10 +69,11 @@ class JiraController:
 if __name__ == '__main__':
     jira = JiraController()
     id = jira.search_user_id('wei.yang')
-    # f = jira.get_issues('TEST-15')
+    # f = jira.get_issues('TEST-23')
     # f = jira.search_user_by_business_line("ai")
     # f = jira.create_issue_by_business_line('ai', id, 'test', 'test')
-    f = jira.create_issue_by_project_key('TEST', id, 'test', 'test')
+    j = {"project": "TEST", "env": "test", "user_id": id, "summary": "test", "description": "test"}
+    f = jira.create_issue_by_project_key(**j)
     # params = {'query': 'le.xu'}
     # f = jira.jira._get_json(path='user/search', params=params)
     print(f)
