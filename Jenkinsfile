@@ -34,33 +34,38 @@ pipeline {
     post("build result notify"){
         always{
             script{
-            sh '''curl --location --request POST \'http://10.20.17.124:8888/buildResult\' \\
-                --header \'Content-Type: application/json\' \\
-                --data \'
-                {
-                  "line": "TEST",
-                  "user": "'"${user_id}"'",
-                  "department_name": "QA效能机器人-消息群",
-                  "project_info": {
-                    "project": "'${project_name}'",
-                    "branch": "'"${BRANCH_NAME}"'"
-                  },
-                  "build_info": {
-                    "build_job": "'${JOB_NAME}'",
-                    "build_number": "'${BUILD_NUMBER}'",
-                    "build_url": "'${RUN_DISPLAY_URL}'",
-                    "ci": false,
-                    "cd": false,
-                    "test": false,
-
-                    "build_result": "${env.result}",
-
-                    "duration_time": "'${duration}'",
-                    "artifact": "'${RUN_ARTIFACTS_DISPLAY_URL}'",
-                    "test_report": "'${RUN_DISPLAY_URL}'"
-                  }
-                }\''''
-            }
+                wrap([$class: 'BuildUser']) {
+                    env.USER = env.BUILD_USER_ID
+                }
+                def result = currentBuild.getResult()
+                env.STATUS=result
+                def duration_time = currentBuild.getDuration()/1000
+                env.DURATION_TIME = duration_time
+                sh '''curl --location --request POST \'http://10.20.17.124:8888/buildResult\' \\
+                    --header \'Content-Type: application/json\' \\
+                    --data \'
+                    {
+                      "line": "TEST",
+                      "user": "'"${env.USER}"'",
+                      "department_name": "QA效能机器人-消息群",
+                      "project_info": {
+                        "project": "'${project_name}'",
+                        "branch": "'"${BRANCH_NAME}"'"
+                      },
+                      "build_info": {
+                        "build_job": "'${JOB_NAME}'",
+                        "build_number": "'${BUILD_NUMBER}'",
+                        "build_url": "'${RUN_DISPLAY_URL}'",
+                        "ci": false,
+                        "cd": false,
+                        "test": false,
+                        "build_result": "${env.STATUS}",
+                        "duration_time": "'${env.DURATION_TIME}'",
+                        "artifact": "'${RUN_ARTIFACTS_DISPLAY_URL}'",
+                        "test_report": "'${RUN_DISPLAY_URL}'"
+                      }
+                    }\''''
+                }
         }
     }
 }
