@@ -36,27 +36,26 @@ pipeline {
             script{
             sh '''curl --location --request POST \'http://10.20.17.124:8888/buildResult\' \\
                 --header \'Content-Type: application/json\' \\
-                --data-raw \'
+                --data \'
                 {
-                  "line": "AI",
-                  "user": "wei.yang",
+                  "line": "TEST",
+                  "user": "${env.user_id}",
                   "department_name": "QA效能机器人-消息群",
                   "project_info": {
-                    "project": "ai-stduio",
-                    "branch": "master"
+                    "project": "${env.project_name}",
+                    "branch": "${env.BRANCH_NAME}"
                   },
                   "build_info": {
-                    "build_job": "string",
-                    "build_number": 54,
-                    "build_url": "http://www.baidu.com",
-
-                    "ci": true,
-                    "cd": true,
-                    "test": true,
-                    "build_result": "failed",
-                    "duration_time": 20,
-                    "artifact": "3132",
-                    "test_report": "http://www.sina.com"
+                    "build_job": "${env.JOB_NAME}",
+                    "build_number": ${env.BUILD_NUMBER},
+                    "build_url": "${env.RUN_DISPLAY_URL}",
+                    "ci": false,
+                    "cd": false,
+                    "test": false,
+                    "build_result": "${env.result}",
+                    "duration_time": "${env.duration}",
+                    "artifact": "${env.RUN_ARTIFACTS_DISPLAY_URL}",
+                    "test_report": "${env.RUN_DISPLAY_URL}"
                   }
                 }\''''
             }
