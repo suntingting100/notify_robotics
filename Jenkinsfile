@@ -62,7 +62,7 @@ pipeline {
                         "build_result": "${BUILD_STATUS}",
                         "duration_time": "'${DURATION_TIME}'",
                         "artifact": "'${ARTIFACT}'",
-                        "test_report": "'${RUN_DISPLAY_URL}'"
+                        "test_report": ""
                       }
                     }\''''
             }
