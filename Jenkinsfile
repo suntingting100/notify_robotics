@@ -46,7 +46,7 @@ pipeline {
                     --data \'
                     {
                       "line": "TEST",
-                      "user": "'"${BUILD_USER_ID}"'",
+                      "user": "'"${USER}"'",
                       "department_name": "QA效能机器人-消息群",
                       "project_info": {
                         "project": "'${project_name}'",
@@ -59,8 +59,8 @@ pipeline {
                         "ci": false,
                         "cd": false,
                         "test": false,
-                        "build_result": "${env.STATUS}",
-                        "duration_time": "'${env.DURATION_TIME}'",
+                        "build_result": "${STATUS}",
+                        "duration_time": "'${DURATION_TIME}'",
                         "artifact": "'${RUN_ARTIFACTS_DISPLAY_URL}'",
                         "test_report": "'${RUN_DISPLAY_URL}'"
                       }
