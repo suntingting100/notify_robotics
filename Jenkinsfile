@@ -39,23 +39,23 @@ pipeline {
                 --data \'
                 {
                   "line": "TEST",
-                  "user": "${env.user_id}",
+                  "user": "${user_id}",
                   "department_name": "QA效能机器人-消息群",
                   "project_info": {
-                    "project": "${env.project_name}",
-                    "branch": "${env.BRANCH_NAME}"
+                    "project": "${project_name}",
+                    "branch": "${BRANCH_NAME}"
                   },
                   "build_info": {
-                    "build_job": "${env.JOB_NAME}",
-                    "build_number": ${env.BUILD_NUMBER},
-                    "build_url": "${env.RUN_DISPLAY_URL}",
+                    "build_job": "${JOB_NAME}",
+                    "build_number": ${BUILD_NUMBER},
+                    "build_url": "${RUN_DISPLAY_URL}",
                     "ci": false,
                     "cd": false,
                     "test": false,
                     "build_result": "${env.result}",
-                    "duration_time": "${env.duration}",
-                    "artifact": "${env.RUN_ARTIFACTS_DISPLAY_URL}",
-                    "test_report": "${env.RUN_DISPLAY_URL}"
+                    "duration_time": "${duration}",
+                    "artifact": "${RUN_ARTIFACTS_DISPLAY_URL}",
+                    "test_report": "${RUN_DISPLAY_URL}"
                   }
                 }\''''
             }
