@@ -59,7 +59,7 @@ class FeiShuApp:
             app_logger.error(traceback.format_exc())
             raise SendFeiShuError()
 
-    def send_message_by_name(self, line, project, branch, name, result, content, link=None):
+    def send_message_by_name(self, name, result, content, link=None):
         uri = "/open-apis/im/v1/messages?receive_id_type=email"
         email = name + "@cyclone-robotics.com"
         params = {"receive_id": email,
@@ -102,6 +102,7 @@ if __name__ == '__main__':
     # chat = "oc_8beab9c240f458cdc3f4879ac5f35e22"
     # content = "\\n构建类型：ci \\n代码工程：ai-studio \\n构建时长：10 \\n构建结果：success"
     # app.send_message_by_chat("AI", "wei.yang", "ai-studio", 'success', content, 'v1.0.0', link='http://www.baidu.com')
+    app.send_message_by_name("wei.yang", 'failed', '失败了')
     l = app.get_chat_id_by_name('QA自动化监控报警消息群')
     print(l)
     pass
