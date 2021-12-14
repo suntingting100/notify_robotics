@@ -39,11 +39,11 @@ pipeline {
                 --data \'
                 {
                   "line": "TEST",
-                  "user": "${user_id}",
+                  "user": "'"${user_id}"'",
                   "department_name": "QA效能机器人-消息群",
                   "project_info": {
                     "project": "${project_name}",
-                    "branch": "${BRANCH_NAME}"
+                    "branch": "'"${BRANCH_NAME}"'"
                   },
                   "build_info": {
                     "build_job": "${JOB_NAME}",
