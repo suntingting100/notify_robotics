@@ -52,11 +52,12 @@ pipeline {
                     "ci": false,
                     "cd": false,
                     "test": false,
-                    "build_result": "'${env.result}'",
 
-                    "duration_time": "${duration}",
-                    "artifact": "${RUN_ARTIFACTS_DISPLAY_URL}",
-                    "test_report": "${RUN_DISPLAY_URL}"
+                    "build_result": "${env.result}",
+
+                    "duration_time": "'${duration}'",
+                    "artifact": "'${RUN_ARTIFACTS_DISPLAY_URL}'",
+                    "test_report": "'${RUN_DISPLAY_URL}'"
                   }
                 }\''''
             }
