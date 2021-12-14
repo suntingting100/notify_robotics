@@ -46,7 +46,7 @@ pipeline {
                     --data \'
                     {
                       "line": "TEST",
-                      "user": "'"${env.USER}"'",
+                      "user": "'"${BUILD_USER_ID}"'",
                       "department_name": "QA效能机器人-消息群",
                       "project_info": {
                         "project": "'${project_name}'",
