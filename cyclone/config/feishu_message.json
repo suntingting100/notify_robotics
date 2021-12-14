@@ -86,7 +86,7 @@
   "header": {
     "template": "@@COLOR@@",
     "title": {
-      "content": "🛠构建结果通知",
+      "content": "🛠 快搭平台通知",
       "tag": "plain_text"
     }
   }
