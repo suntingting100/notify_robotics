@@ -33,6 +33,11 @@ class AppBaseSetting(BaseSettings):
     jira_apikey: str = 'ya1UH4S3DUbX6JDrDNreF043'
     app_id: str = 'cli_a11ede39d47a100c'
     app_secret: str = 'Tq2Xl1lKsIIX10avtXPFOhovCyGcd34O'
+    db_host: str = '10.20.17.176'
+    db_port: str = '30086'
+    db_name: str = 'qcenter'
+    db_user: str = 'root'
+    db_passwd: str = 'DbPasswd4OnPrem'
 
     class Config:
         env_file = get_root_path() + "/.env"

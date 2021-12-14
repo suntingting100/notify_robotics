@@ -5,10 +5,16 @@
 @file:build_result_notify.py
 @time:2021/12/13
 """
+import traceback
+
 from pydantic.main import BaseModel
 from cyclone import app
+from cyclone import app_logger
 from cyclone.exceptions.BaseException import *
 from cyclone.utils.feishu_app_tools import FeiShuApp
+from cyclone.orms.ci_info_orm import CiInfo
+from cyclone.orms.job_result_orm import JobResult
+from cyclone.utils.save_db import SaveDB
 
 
 class BuildInfo(BaseModel):
@@ -64,11 +70,26 @@ def send_message(json_body: JsonBody):
             content = "%s\\n测试结果：%s" % (content, json_body.build_info.test_report)
 
         content = build_type + content
-        print(content)
         chart_id = feishu_app.get_chat_id_by_name(json_body.department_name)
         res = feishu_app.send_message_by_chat(json_body.line, json_body.user, json_body.build_info.build_job,
                                               json_body.build_info.build_result, content, json_body.build_info.artifact,
                                               json_body.build_info.build_url, chart_id)
+        build_result = JobResult(line=json_body.line, user=json_body.user, job_name=json_body.build_info.build_job,
+                                 build_number=json_body.build_info.build_number, env=json_body.build_info.env,
+                                 ci=str(json_body.build_info.ci), cd=str(json_body.build_info.cd),
+                                 test=str(json_body.build_info.test), duration_time=json_body.build_info.duration_time,
+                                 status=json_body.build_info.build_result, branch=json_body.project_info.branch)
+        ci_info = CiInfo(project=json_body.project_info.project, build_Number=json_body.build_info.build_number,
+                         tag=json_body.build_info.artifact, branch=json_body.project_info.branch,
+                         ci_status=json_body.build_info.build_result)
+        try:
+            db_client = SaveDB()
+            db_client.save_to_db(ci_info.__tablename__, ci_info)
+            db_client.save_to_db(build_result.__tablename__, build_result)
+        except Exception as e:
+            feishu_app.send_message_by_name('yunpeng.liu', 'failed', '保存数据库失败，快检查！')
+            app_logger.error(traceback.format_exc())
+            raise SaveDBError
         return res
     except SendFeiShuError as e:
         raise e

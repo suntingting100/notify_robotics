@@ -30,3 +30,7 @@ class LineNotFoundError(BaseError):
 
 class EsError(BaseError):
     _error = Error(code=50005, message='es存在错误，请检查！', http_status_code=500)
+
+
+class SaveDBError(BaseError):
+    _error = Error(code=50002, message='保存数据库失败，请检查！', http_status_code=500)
