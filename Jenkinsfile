@@ -1,12 +1,12 @@
 pipeline {
     agent {
-        label: 'slave01'
+        label 'slave01'
     }
-
     stages{
         stage("global") {
             steps {
-                sh 'hello world!'
+
+                echo 'hello world!'
             }
         }
         stage('test branch') {
@@ -14,7 +14,9 @@ pipeline {
                 branch 'test'
             }
             steps {
-                sh 'I am in branch test'
+//                 scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
+                echo 'I am in branch test'
+                sh 'exit 0'
             }
         }
         stage('master') {
@@ -22,7 +24,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh 'I am in master'
+                echo 'I am in master'
             }
         }
     }

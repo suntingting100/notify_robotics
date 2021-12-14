@@ -39,7 +39,7 @@ class EsController:
 
 
 if __name__ == '__main__':
-    index = 'yw_t_in'
+    index = 'monitor'
     json_body = {"query": {"bool": {"must": [{"match_all": {}}]}}}
     # json_body = {"query": {
     #     "bool": {"must": [{"query_string": {"default_field": "alert_date", "query": "*"}}], "must_not": [],
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     esc = EsController()
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    # futures = asyncio.ensure_future(esc.delete_index_by_query(index, json_body))
-    futures = asyncio.ensure_future(esc.insert_index(index, jb))
+    futures = asyncio.ensure_future(esc.delete_index_by_query(index, json_body))
+    # futures = asyncio.ensure_future(esc.insert_index(index, jb))
     loop.run_until_complete(futures)
     body = futures.result()

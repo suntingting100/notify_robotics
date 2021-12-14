@@ -1,0 +1,93 @@
+{
+  "config": {
+    "wide_screen_mode": true
+  },
+  "elements": [
+    {
+      "tag": "div",
+      "fields": [
+        {
+          "is_short": true,
+          "text": {
+            "tag": "lark_md",
+            "content": "**🍰产品线：**\n@@LINE@@"
+          }
+        },
+        {
+          "is_short": true,
+          "text": {
+            "tag": "lark_md",
+            "content": "**👨‍💻触发人：**\n<at email=@@EMAIL@@></at>"
+          }
+        }
+      ]
+    },
+    {
+      "tag": "div",
+      "fields": [
+        {
+          "is_short": true,
+          "text": {
+            "tag": "lark_md",
+            "content": "**🖥️构建工程：**\n@@BUILD_JOB@@"
+          }
+        },
+        {
+          "is_short": true,
+          "text": {
+            "tag": "lark_md",
+            "content": "**📝构建产物：**\n@@ARTIFACT@@"
+          }
+        }
+      ]
+    },
+    {
+      "tag": "hr"
+    },
+    {
+      "tag": "markdown",
+      "content": "**构建详情：**\n@@CONTENT@@"
+    },
+    {
+      "actions": [
+        {
+          "tag": "button",
+          "text": {
+            "content": "查看结果详情",
+            "tag": "plain_text"
+          },
+          "type": "primary",
+          "url": "@@LINK@@"
+        }
+      ],
+      "tag": "action"
+    },
+    {
+      "tag": "hr"
+    },
+    {
+      "tag": "note",
+      "elements": [
+        {
+          "tag": "img",
+          "img_key": "img_v2_8405e43c-6679-4882-bc82-583efdb7eaeg",
+          "alt": {
+            "tag": "plain_text",
+            "content": "图片"
+          }
+        },
+        {
+          "tag": "plain_text",
+          "content": "本消息由快搭平台自动发送！"
+        }
+      ]
+    }
+  ],
+  "header": {
+    "template": "@@COLOR@@",
+    "title": {
+      "content": "🛠构建结果通知",
+      "tag": "plain_text"
+    }
+  }
+}

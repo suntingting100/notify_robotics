@@ -39,6 +39,7 @@ from cyclone.utils.exception_handler import *
 # 注册接口地址
 from cyclone.controller.notify_send import app
 from cyclone.controller.alert_reporter import app
+from cyclone.controller.build_result_notify import app
 
 
 if __name__ == '__main__':
