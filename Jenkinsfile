@@ -35,8 +35,9 @@ pipeline {
         always{
             script{
                 wrap([$class: 'BuildUser']) {
-                    env.USER = env.BUILD_USER_ID
+                    env.USER_ID = env.BUILD_USER_ID
                 }
+                println env.USER_ID
                 def result = currentBuild.getResult()
                 env.STATUS=result
                 def duration_time = currentBuild.getDuration()/1000
@@ -46,7 +47,7 @@ pipeline {
                     --data \'
                     {
                       "line": "TEST",
-                      "user": "'"${USER}"'",
+                      "user": "'"${USER_ID}"'",
                       "department_name": "QA效能机器人-消息群",
                       "project_info": {
                         "project": "'${project_name}'",
@@ -65,7 +66,8 @@ pipeline {
                         "test_report": "'${RUN_DISPLAY_URL}'"
                       }
                     }\''''
-                }
+            }
+
         }
     }
 }
