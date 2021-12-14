@@ -32,8 +32,8 @@ pipeline {
         }
     }
     post("build result notify"){
-        always
-        script{
+        always{
+            script{
             sh '''curl --location --request POST \'http://10.20.17.124:8888/buildResult\' \\
                 --header \'Content-Type: application/json\' \\
                 --data-raw \'
@@ -58,7 +58,8 @@ pipeline {
                     "artifact": "3132",
                     "test_report": "http://www.sina.com"
                   }
-            }\''''
+                }\''''
+            }
         }
     }
 }
