@@ -38,7 +38,7 @@ pipeline {
                 env.USER = author
                 def result = currentBuild.getResult()
                 println result
-                env.STATUS=result
+                env.BUILD_STATUS=result
                 def duration_time = currentBuild.getDuration()/1000
                 env.DURATION_TIME = duration_time
                 sh '''curl --location --request POST \'http://10.20.17.124:8888/buildResult\' \\
@@ -59,9 +59,9 @@ pipeline {
                         "ci": false,
                         "cd": false,
                         "test": false,
-                        "build_result": "${STATUS}",
+                        "build_result": "${BUILD_STATUS}",
                         "duration_time": "'${DURATION_TIME}'",
-                        "artifact": "'${RUN_ARTIFACTS_DISPLAY_URL}'",
+                        "artifact": "'${ARTIFACT}'",
                         "test_report": "'${RUN_DISPLAY_URL}'"
                       }
                     }\''''
