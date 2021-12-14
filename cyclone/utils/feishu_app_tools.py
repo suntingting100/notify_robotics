@@ -83,7 +83,7 @@ class FeiShuApp:
                       .replace("@@BUILD_JOB@@", build_job) \
                       .replace("@@LINK@@", "http://10.20.17.218:8080/" if link is None else link) \
                       .replace("@@CONTENT@@", content) \
-                      .replace("@@COLOR@@", "green" if result == "success" else "red"),
+                      .replace("@@COLOR@@", "green" if result.upper() == "SUCCESS" else "red"),
                   "msg_type": "interactive"}
         try:
             res = requests.post(self.base_url + uri, json=params, headers=self.header)
