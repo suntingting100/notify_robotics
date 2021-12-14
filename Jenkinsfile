@@ -34,6 +34,8 @@ pipeline {
     post("build result notify"){
         always{
             script{
+                def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
+                println author
                 def result = currentBuild.getResult()
                 println result
                 env.STATUS=result
