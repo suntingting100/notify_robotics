@@ -88,6 +88,7 @@ def send_message(json_body: JsonBody):
         ci_info = CiInfo(project=json_body.project_info.project, build_Number=json_body.build_info.build_number,
                          tag=json_body.build_info.artifact, branch=json_body.project_info.branch,
                          ci_status=json_body.build_info.build_result)
+
         try:
             db_client = SaveDB()
             if json_body.build_info.ci:
