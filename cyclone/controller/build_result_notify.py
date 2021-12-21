@@ -55,9 +55,9 @@ class JsonBody(BaseModel):
 def send_message(json_body: JsonBody):
     feishu_app = FeiShuApp()
     try:
-        content = "\\n构建时长：%s \\n构建结果：%s" % (
-            json_body.build_info.duration_time,
-            json_body.build_info.build_result)
+        content = "\\n**构建结果：**\\n%s \\n\\n**构建详情：**\\n构建时长：%s" % (
+            json_body.build_info.build_result,
+            json_body.build_info.duration_time)
         build_type = "\\n构建类型："
         if json_body.build_info.ci:
             build_type = build_type + " ci "
@@ -69,11 +69,17 @@ def send_message(json_body: JsonBody):
             build_type = build_type + " test "
             content = "%s\\n测试结果：%s" % (content, json_body.build_info.test_report)
 
-        content = build_type + content
-        chart_id = feishu_app.get_chat_id_by_name(json_body.department_name)
-        res = feishu_app.send_message_by_chat(json_body.line, json_body.user, json_body.build_info.build_job,
-                                              json_body.build_info.build_result, content, json_body.build_info.artifact,
-                                              json_body.build_info.build_url, chart_id)
+        content = content + build_type
+        if json_body.message_type == 'department':
+            chart_id = feishu_app.get_chat_id_by_name(json_body.department_name)
+            res = feishu_app.send_message_by_chat(json_body.line, json_body.user, json_body.build_info.build_job,
+                                                  json_body.build_info.build_result, content, json_body.build_info.artifact,
+                                                  json_body.build_info.build_url, chart_id)
+        elif json_body.message_type == 'user':
+            res = feishu_app.send_message_by_name(json_body.line, json_body.user, json_body.build_info.build_job,
+                                                  json_body.build_info.build_result, content,
+                                                  json_body.build_info.artifact,
+                                                  json_body.build_info.build_url)
         build_result = JobResult(line=json_body.line, user=json_body.user, job_name=json_body.build_info.build_job,
                                  build_number=json_body.build_info.build_number, env=json_body.build_info.env,
                                  ci=str(json_body.build_info.ci), cd=str(json_body.build_info.cd),
@@ -84,7 +90,8 @@ def send_message(json_body: JsonBody):
                          ci_status=json_body.build_info.build_result)
         try:
             db_client = SaveDB()
-            db_client.save_to_db(ci_info.__tablename__, ci_info)
+            if json_body.build_info.ci:
+                db_client.save_to_db(ci_info.__tablename__, ci_info)
             db_client.save_to_db(build_result.__tablename__, build_result)
         except Exception as e:
             feishu_app.send_message_by_name('yunpeng.liu', 'failed', '保存数据库失败，快检查！')
