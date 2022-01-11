@@ -75,10 +75,13 @@ class FeiShuApp:
         receive_id_type = "email"
         email = user + "@cyclone-robotics.com"
         params = {"receive_id": email,
-                  "content": self.message_template.replace("@@EMAIL@@", email)
-                      .replace("@@LINK@@", "http://10.20.17.218:8080/" if link is None else link)
-                      .replace("@@CONTENT@@", content)
-                      .replace("@@COLOR@@", "green" if result == "success" else "red"),
+                  "content": self.message_template.replace("@@EMAIL@@", email) \
+                      .replace("@@LINE@@", line) \
+                      .replace("@@ARTIFACT@@", artifact) \
+                      .replace("@@BUILD_JOB@@", build_job) \
+                      .replace("@@LINK@@", "http://10.20.17.218:8080/" if link is None else link) \
+                      .replace("@@CONTENT@@", content) \
+                      .replace("@@COLOR@@", "green" if result.upper() == "SUCCESS" else "red"),
                   "msg_type": "interactive"}
         res = self.send_message(receive_id_type, **params)
         return res
