@@ -6,7 +6,7 @@
 @time:2021/12/13
 """
 import traceback
-
+import time
 from pydantic.main import BaseModel
 from cyclone import app
 from cyclone import app_logger
@@ -14,8 +14,9 @@ from cyclone.exceptions.BaseException import *
 from cyclone.utils.feishu_app_tools import FeiShuApp
 from cyclone.orms.ci_info_orm import CiInfo
 from cyclone.orms.job_result_orm import JobResult
+from cyclone.orms.ai_result_orm import AiReport
 from cyclone.utils.save_db import SaveDB
-
+from cyclone.utils.http_requests import RequestHandler
 
 class BuildInfo(BaseModel):
     build_job: str
@@ -29,6 +30,12 @@ class BuildInfo(BaseModel):
     duration_time: float
     artifact: str = None
     test_report: str = None
+    report_to_superset: str = None
+    app_name: str = None
+    test_env: str = None
+    test_product: str = None
+    test_project: str = None
+
 
 
 class ProjectInfo(BaseModel):
@@ -93,6 +100,20 @@ def send_message(json_body: JsonBody):
             if json_body.build_info.ci:
                 db_client.save_to_db(ci_info.__tablename__, ci_info)
             db_client.save_to_db(build_result.__tablename__, build_result)
+            if json_body.build_info.report_to_superset:
+                summary = RequestHandler().get_http(json_body.build_info.report_to_superset)
+                ai_result = AiReport(failed=summary["statistic"]["failed"], broken=summary["statistic"]["broken"],
+                                     skipped=summary["statistic"]["skipped"], passed=summary["statistic"]["passed"],
+                                     unknown=summary["statistic"]["unknown"], total=summary["statistic"]["total"],
+                                     start=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(summary["time"]["start"]/1000)),
+                                     stop=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(summary["time"]["stop"]/1000)),
+                                     duration=summary["time"]["duration"], minDuration=summary["time"]["minDuration"],
+                                     maxDuration=summary["time"]["maxDuration"], sumDuration=summary["time"]["sumDuration"],
+                                     test_report=json_body.build_info.test_report, app_name=json_body.build_info.app_name,
+                                     test_env=json_body.build_info.test_env, test_product=json_body.build_info.test_product,
+                                     test_project=json_body.build_info.test_project)
+
+                db_client.save_to_db(ai_result.__tablename__, ai_result)
         except Exception as e:
             feishu_app.send_message_by_name('yunpeng.liu', 'failed', '保存数据库失败，快检查！')
             app_logger.error(traceback.format_exc())
