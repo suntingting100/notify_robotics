@@ -1,0 +1,279 @@
+{
+    "ReportDefinition": {
+        "type": "standard",
+        "TemplateName": {
+            "__XmlTagText__": "Fortify Developer Workbook"
+        },
+        "TemplatePath": {},
+        "LogoPath": {
+            "__XmlTagText__": "/MF_logo.png"
+        },
+        "Footnote": {
+            "__XmlTagText__": "Copyright 2020 Micro Focus or one of its affiliates."
+        },
+        "UserName": {},
+        "ReportSection": [
+            {
+                "enabled": "true",
+                "optionalSubsections": "false",
+                "Title": {
+                    "__XmlTagText__": "Report Overview"
+                },
+                "SubSection": [
+                    {
+                        "enabled": "true",
+                        "Title": {
+                            "__XmlTagText__": "Report Summary"
+                        },
+                        "Description": {
+                            "__XmlTagText__": "This provides a high level summary of the findings that the analysis produced.  Also includes basic information on the scope of the scan."
+                        },
+                        "Text": {
+                            "__XmlTagText__": "On 2022-2-22, a source code review was performed over the test_scan code base. 12 files, 347 LOC (Executable) were scanned. A total of 1 issues were uncovered during the analysis.  This report provides a comprehensive description of all the types of issues found in this project.  Specific examples and source code are provided for each issue type."
+                        }
+                    },
+                    {
+                        "enabled": "true",
+                        "Title": {
+                            "__XmlTagText__": "Issue Summary by Fortify Priority Order"
+                        },
+                        "Description": {
+                            "__XmlTagText__": "A table summarizing the number of issues found and the breakdown of issues in each Fortify Priority Level"
+                        },
+                        "IssueListing": {
+                            "listing": "false",
+                            "limit": "-1",
+                            "Refinement": {},
+                            "Chart": {
+                                "chartType": "table",
+                                "Axis": {
+                                    "__XmlTagText__": "Fortify Priority Order"
+                                },
+                                "MajorAttribute": {
+                                    "__XmlTagText__": "Analysis"
+                                },
+                                "GroupingSection": {
+                                    "count": "1",
+                                    "groupTitle": {
+                                        "__XmlTagText__": "High"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "enabled": "true",
+                "optionalSubsections": "false",
+                "Title": {
+                    "__XmlTagText__": "Issue Summary"
+                },
+                "SubSection": [
+                    {
+                        "enabled": "true",
+                        "Title": {
+                            "__XmlTagText__": "Overall number of results"
+                        },
+                        "Description": {
+                            "__XmlTagText__": "Results count"
+                        },
+                        "Text": {
+                            "__XmlTagText__": "The scan found 1 issues."
+                        }
+                    },
+                    {
+                        "enabled": "true",
+                        "Title": {
+                            "__XmlTagText__": "Issues By Category"
+                        },
+                        "IssueListing": {
+                            "listing": "false",
+                            "limit": "-1",
+                            "Refinement": {},
+                            "Chart": {
+                                "chartType": "table",
+                                "Axis": {
+                                    "__XmlTagText__": "Category"
+                                },
+                                "MajorAttribute": {
+                                    "__XmlTagText__": "Analysis"
+                                },
+                                "GroupingSection": {
+                                    "count": "1",
+                                    "groupTitle": {
+                                        "__XmlTagText__": "Insecure Randomness"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "enabled": "true",
+                "optionalSubsections": "true",
+                "Title": {
+                    "__XmlTagText__": "Results Outline"
+                },
+                "SubSection": {
+                    "enabled": "true",
+                    "Title": {
+                        "__XmlTagText__": "Vulnerability Examples by Category"
+                    },
+                    "Description": {
+                        "__XmlTagText__": "Results summary of all issue categories.  Vulnerability examples are provided by category."
+                    },
+                    "IssueListing": {
+                        "listing": "true",
+                        "limit": "5",
+                        "Refinement": {},
+                        "Chart": {
+                            "chartType": "list",
+                            "Axis": {
+                                "__XmlTagText__": "Category"
+                            },
+                            "MajorAttribute": {
+                                "__XmlTagText__": "Analysis"
+                            },
+                            "GroupingSection": {
+                                "count": "1",
+                                "groupTitle": {
+                                    "__XmlTagText__": "Insecure Randomness"
+                                },
+                                "MajorAttributeSummary": [
+                                    {
+                                        "MetaInfo": {
+                                            "Name": {
+                                                "__XmlTagText__": "Abstract"
+                                            },
+                                            "Value": {
+                                                "__XmlTagText__": "由 randrange() 实施的随机数生成器不能抵挡加密攻击。"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "MetaInfo": {
+                                            "Name": {
+                                                "__XmlTagText__": "Explanation"
+                                            },
+                                            "Value": {
+                                                "__XmlTagText__": "在对安全性要求较高的环境中，使用能够生成可预测值的函数作为随机数据源，会产生 Insecure Randomness 错误。\n\n电脑是一种具有确定性的机器，因此不可能产生真正的随机性。伪随机数生成器 (PRNG) 近似于随机算法，始于一个能计算后续数值的种子。\n\nPRNG 包括两种类型：统计学的 PRNG 和密码学的 PRNG。统计学的 PRNG 提供很多有用的统计属性，但其输出结果很容易预测，因此容易复制数值流。在安全性所依赖的生成值不可预测的情况下，这种类型并不适用。密码学的 PRNG 生成的输出结果较难预测，可解决这一问题。为保证值的加密安全性，必须使攻击者根本无法、或几乎不可能鉴别生成的随机值和真正的随机值。通常情况下，如果并未声明 PRNG 算法带有加密保护，那么它很可能就是统计学的 PRNG，因此不应在对安全性要求较高的环境中使用，否则会导致严重的漏洞（如易于猜测的密码、可预测的加密密钥、Session Hijacking 和 DNS Spoofing）。\n\n示例： 下面的代码可利用统计学的 PRNG 为购买产品后仍在有效期内的收据创建一个 URL。\n\n\n    def genReceiptURL(self,baseURL):\n        randNum = random.random()\n        receiptURL = baseURL + randNum + \".html\"\n        return receiptURL\n\n\n这段代码使用 rand() 函数为它生成的收据页面生成“唯一”的标识符。由于 rand() 是统计学的 PRNG，攻击者很容易猜到其生成的字符串。尽管收据系统的底层设计并不完善，但若使用不会生成可预测收据标识符的随机数生成器（如密码学的 PRNG），就会更安全些。"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "MetaInfo": {
+                                            "Name": {
+                                                "__XmlTagText__": "Recommendations"
+                                            },
+                                            "Value": {
+                                                "__XmlTagText__": "当不可预测性至关重要时，如大多数对安全性要求较高的环境都采用随机性，这时可以使用密码学的 PRNG。不管选择了哪一种 PRNG，都要始终使用带有充足熵的数值作为该算法的种子。（切勿使用诸如当前时间之类的数值，因为它们只提供很小的熵。）"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "AttributeValue": {
+                                            "Name": {
+                                                "__XmlTagText__": "<Unaudited>"
+                                            },
+                                            "Count": {
+                                                "__XmlTagText__": "1"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "AttributeValue": {
+                                            "Name": {
+                                                "__XmlTagText__": "Not an Issue"
+                                            },
+                                            "Count": {
+                                                "__XmlTagText__": "0"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "AttributeValue": {
+                                            "Name": {
+                                                "__XmlTagText__": "Reliability Issue"
+                                            },
+                                            "Count": {
+                                                "__XmlTagText__": "0"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "AttributeValue": {
+                                            "Name": {
+                                                "__XmlTagText__": "Bad Practice"
+                                            },
+                                            "Count": {
+                                                "__XmlTagText__": "0"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "AttributeValue": {
+                                            "Name": {
+                                                "__XmlTagText__": "Suspicious"
+                                            },
+                                            "Count": {
+                                                "__XmlTagText__": "0"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "AttributeValue": {
+                                            "Name": {
+                                                "__XmlTagText__": "Exploitable"
+                                            },
+                                            "Count": {
+                                                "__XmlTagText__": "0"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "Issue": {
+                                    "iid": "B270C3983499FEC9307A36B7297275CA",
+                                    "ruleID": "A8DBA2E8-A162-4A52-B854-046A8EE5ECB9",
+                                    "Category": {
+                                        "__XmlTagText__": "Insecure Randomness"
+                                    },
+                                    "Folder": {
+                                        "__XmlTagText__": "High"
+                                    },
+                                    "Kingdom": {
+                                        "__XmlTagText__": "Security Features"
+                                    },
+                                    "Abstract": {
+                                        "__XmlTagText__": "由 randrange() 实施的随机数生成器不能抵挡加密攻击。"
+                                    },
+                                    "Friority": {
+                                        "__XmlTagText__": "High"
+                                    },
+                                    "Primary": {
+                                        "FileName": {
+                                            "__XmlTagText__": "veiws_utils.py"
+                                        },
+                                        "FilePath": {
+                                            "__XmlTagText__": "cyclone/utils/veiws_utils.py"
+                                        },
+                                        "LineStart": {
+                                            "__XmlTagText__": "21"
+                                        },
+                                        "Snippet": {
+                                            "__XmlTagText__": "def make_random_nonce():\n    large_number = random.randrange(1e6, 1e8)\n    return '{:X}'.format(int(time.time()) ^ large_number)"
+                                        },
+                                        "TargetFunction": {
+                                            "__XmlTagText__": "randrange()"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
