@@ -66,7 +66,9 @@ class FeiShuApp:
             if res.json()['code'] == 0:
                 return normal_json_response("飞书发送成功！")
             raise SendFeiShuError(message=res.json())
-        except Exception as e:
+        except SendFeiShuError as e:
+            raise e
+        except Exception:
             app_logger.error("uri:%s\t params:%s" % (uri, params))
             app_logger.error(traceback.format_exc())
             raise SendFeiShuError()
