@@ -52,7 +52,10 @@ class FeiShuApp:
         params = {"query": name}
         try:
             res = requests.get(self.base_url + uri, params=params, headers=self.header)
-            chat_id = res.json()['data']['items'][0]['chat_id']
+            if len(res.json()['data']['items']) > 0:
+                chat_id = res.json()['data']['items'][0]['chat_id']
+            else:
+                raise SendFeiShuError("机器人不能查看群组: %s，请在该群组中添加机器人：效能机器人Bot" % name)
             return chat_id
         except Exception as e:
             app_logger.error("url: %s\tname:%s" % (self.base_url + uri, name))
