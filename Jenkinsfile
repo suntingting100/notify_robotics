@@ -40,7 +40,7 @@ pipeline {
     post {
         always{
             script {
-                sh 'docker rmi registry.mycyclone.com/test_project/process_auto_test:latest'
+                sh "docker rmi ${docker_registry}/test_project/${projectName}:latest"
 
 //                 def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
 //                 env.USER = author
