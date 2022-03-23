@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9.10-slim
 ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY . ./
