@@ -30,6 +30,7 @@ class CiInfo(Base):
 
 
 if __name__ == '__main__':
+    Base.metadata.create_all(SaveDB().engine)
     ci = CiInfo(project='test', build_Number=111, tag='test-a-a', branch='master', ci_status='success')
     print(ci)
     SaveDB().save_to_db(ci.__tablename__, ci)

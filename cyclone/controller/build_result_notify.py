@@ -18,6 +18,7 @@ from cyclone.orms.ai_result_orm import AiReport
 from cyclone.utils.save_db import SaveDB
 from cyclone.utils.http_requests import RequestHandler
 
+
 class BuildInfo(BaseModel):
     build_job: str
     build_number: int
@@ -28,14 +29,13 @@ class BuildInfo(BaseModel):
     test: bool
     build_result: str
     duration_time: float
-    artifact: str = None
+    artifact: str = ""
     test_report: str = None
     report_to_superset: str = None
     app_name: str = None
     test_env: str = None
     test_product: str = None
     test_project: str = None
-
 
 
 class ProjectInfo(BaseModel):
@@ -80,7 +80,8 @@ def send_message(json_body: JsonBody):
         if json_body.message_type == 'department':
             chart_id = feishu_app.get_chat_id_by_name(json_body.department_name)
             res = feishu_app.send_message_by_chat(json_body.line, json_body.user, json_body.build_info.build_job,
-                                                  json_body.build_info.build_result, content, json_body.build_info.artifact,
+                                                  json_body.build_info.build_result, content,
+                                                  json_body.build_info.artifact,
                                                   json_body.build_info.build_url, chart_id)
         elif json_body.message_type == 'user':
             res = feishu_app.send_message_by_name(json_body.line, json_body.user, json_body.build_info.build_job,
@@ -105,12 +106,17 @@ def send_message(json_body: JsonBody):
                 ai_result = AiReport(failed=summary["statistic"]["failed"], broken=summary["statistic"]["broken"],
                                      skipped=summary["statistic"]["skipped"], passed=summary["statistic"]["passed"],
                                      unknown=summary["statistic"]["unknown"], total=summary["statistic"]["total"],
-                                     start=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(summary["time"]["start"]/1000)),
-                                     stop=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(summary["time"]["stop"]/1000)),
+                                     start=time.strftime('%Y-%m-%d %H:%M:%S',
+                                                         time.localtime(summary["time"]["start"] / 1000)),
+                                     stop=time.strftime('%Y-%m-%d %H:%M:%S',
+                                                        time.localtime(summary["time"]["stop"] / 1000)),
                                      duration=summary["time"]["duration"], minDuration=summary["time"]["minDuration"],
-                                     maxDuration=summary["time"]["maxDuration"], sumDuration=summary["time"]["sumDuration"],
-                                     test_report=json_body.build_info.test_report, app_name=json_body.build_info.app_name,
-                                     test_env=json_body.build_info.test_env, test_product=json_body.build_info.test_product,
+                                     maxDuration=summary["time"]["maxDuration"],
+                                     sumDuration=summary["time"]["sumDuration"],
+                                     test_report=json_body.build_info.test_report,
+                                     app_name=json_body.build_info.app_name,
+                                     test_env=json_body.build_info.test_env,
+                                     test_product=json_body.build_info.test_product,
                                      test_project=json_body.build_info.test_project)
 
                 db_client.save_to_db(ai_result.__tablename__, ai_result)
